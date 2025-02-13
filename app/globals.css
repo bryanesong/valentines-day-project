@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 228, 230;
+  --background-end-rgb: 255, 182, 193;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Leaflet styles */
+.leaflet-container {
+  height: 500px;
+  width: 100%;
+  border-radius: 10px;
+  z-index: 0; /* Ensure map stays below other elements */
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+.leaflet-popup-content {
+  margin: 10px;
+}
+
+/* Add styles for point system */
+.point-system-container {
+  position: relative;
+  z-index: 1000; /* Higher than map */
+}
+
