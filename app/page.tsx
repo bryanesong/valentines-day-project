@@ -116,6 +116,98 @@ const getLocationStats = (points: typeof mapPoints, answered: string[]) => {
   return groupStats;
 };
 
+const catPhotos = [
+  "/images/cute_cat_photos/cute1.jpg",
+  "/images/cute_cat_photos/cute2.jpg",
+  "/images/cute_cat_photos/cute3.jpg",
+  "/images/cute_cat_photos/cute4.jpg",
+  // Add more cat photos as needed
+]
+
+const FloatingCatPhotos = () => {
+  return (
+    <div className="absolute inset-x-0 top-20 h-64 overflow-hidden pointer-events-none">
+      {/* Left side cats */}
+      {catPhotos.slice(0, 2).map((photo, index) => {
+        const xPosition = 5 + (index * 15) // 15% and 30% from left
+        
+        return (
+          <motion.div
+            key={`left-${photo}`}
+            className="absolute"
+            initial={{ 
+              x: `${xPosition}%`, 
+              y: index % 2 === 0 ? -20 : 20,
+              rotate: Math.random() * 20 - 10
+            }}
+            animate={{
+              y: [index % 2 === 0 ? -20 : 20, index % 2 === 0 ? 20 : -20],
+              rotate: [Math.random() * 20 - 10, Math.random() * 20 - 10]
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            style={{
+              left: `calc(${xPosition}% - 60px)`
+            }}
+          >
+            <Image
+              src={photo}
+              alt="Cute cat"
+              width={200}
+              height={200}
+              className="rounded-lg shadow-lg opacity-70 hover:opacity-100 transition-opacity"
+              priority
+            />
+          </motion.div>
+        )
+      })}
+
+      {/* Right side cats */}
+      {catPhotos.slice(2, 4).map((photo, index) => {
+        const xPosition = 70 + (index * 15) // 70% and 85% from left
+        
+        return (
+          <motion.div
+            key={`right-${photo}`}
+            className="absolute"
+            initial={{ 
+              x: `${xPosition}%`, 
+              y: index % 2 === 0 ? -20 : 20,
+              rotate: Math.random() * 20 - 10
+            }}
+            animate={{
+              y: [index % 2 === 0 ? -20 : 20, index % 2 === 0 ? 20 : -20],
+              rotate: [Math.random() * 20 - 10, Math.random() * 20 - 10]
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            style={{
+              left: `calc(${xPosition}% - 60px)`
+            }}
+          >
+            <Image
+              src={photo}
+              alt="Cute cat"
+              width={120}
+              height={120}
+              className="rounded-lg shadow-lg opacity-70 hover:opacity-100 transition-opacity"
+              priority
+            />
+          </motion.div>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function Home() {
   const [huntStarted, setHuntStarted] = useState(false)
   const [huntCompleted, setHuntCompleted] = useState(false)
@@ -151,7 +243,7 @@ export default function Home() {
 
   if (!huntStarted) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-pink-100">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-pink-100 relative">
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -228,7 +320,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-pink-100">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-pink-100 relative">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -265,7 +357,9 @@ export default function Home() {
         </div>
       </motion.div>
 
-      <div className="w-full max-w-full">
+      <FloatingCatPhotos />
+      
+      <div className="w-full max-w-full mt-16">
         <LeafletMap 
           mapPoints={mapPoints} 
           onComplete={() => setHuntCompleted(true)} 
